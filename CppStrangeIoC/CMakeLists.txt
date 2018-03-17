@@ -1,60 +1,50 @@
-cmake_minimum_required(VERSION 2.8) 
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(StrengeIOCcpp)				# Proj Name
 
-set(SOURCE_EXE main.cpp)			# Main
+set(CMAKE_SUPPRESS_REGENERATION true)
 
-# binding
-include_directories(framework/binding)			# pattern binding Include
-add_subdirectory(framework/binding)				# pattern binding Source
+set_target_properties(${TARGET} PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+)
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/)
 
-# command
-include_directories(framework/command)			# pattern command Include
-add_subdirectory(framework/command)				# pattern command Source
+# -------------------------------------------------------------------------------------
+# StrengeIOCcpp
+file(GLOB STRENGEIOCCPP_SOURCE "*.cpp")
+file(GLOB STRENGEIOCCPP_HEADERS "*.h")
+source_group( StrengeIOCcpp FILES ${STRENGEIOCCPP_SOURCE} ${STRENGEIOCCPP_HEADERS} )
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ./)
 
-# context
-include_directories(framework/context)			# pattern context Include
-add_subdirectory(framework/context)				# pattern context Source
+# -------------------------------------------------------------------------------------
+# StrengeIOCcpp binding
+file(GLOB BINDING_SOURCE "framework/binding/*.cpp")
+file(GLOB BINDING_HEADERS "framework/binding/*.h")
+include_directories(${CMAKE_CURRENT_BINARY_DIR} framework/binding/)
+source_group( StrengeIOCcpp\\binding FILES ${BINDING_SOURCE} ${BINDING_HEADERS} )
 
-# dispatcher
-include_directories(framework/dispatcher)			# pattern dispatcher Include
-add_subdirectory(framework/dispatcher)				# pattern dispatcher Source
 
-# injector
-include_directories(framework/injector)			# pattern injector Include
-add_subdirectory(framework/injector)				# pattern injector Source
+# -------------------------------------------------------------------------------------
+# StrengeIOCcpp dispatcher
+#file(GLOB DISPATCHER_SOURCE "framework/dispatcher/*.cpp")
+#file(GLOB DISPATCHER_HEADERS "framework/dispatcher/*.h")
+#include_directories(${CMAKE_CURRENT_BINARY_DIR} framework/dispatcher/)
+#source_group( StrengeIOCcpp\\dispatcher FILES ${DISPATCHER_SOURCE} ${DISPATCHER_HEADERS} )
 
-# mediation
-include_directories(framework/mediation)			# pattern mediation Include
-add_subdirectory(framework/mediation)				# pattern mediation Source
 
-# pool
-include_directories(framework/pool)			# pattern pool Include
-add_subdirectory(framework/pool)				# pattern pool Source
+# -------------------------------------------------------------------------------------
+add_executable(	${PROJECT_NAME} 
+					${STRENGEIOCCPP_SOURCE} 
+					${STRENGEIOCCPP_HEADERS} 
+					${BINDING_SOURCE}
+					${BINDING_HEADERS} 
+					#${DISPATCHER_SOURCE}
+					#${DISPATCHER_HEADERS} 
+					)
 
-# reflector
-include_directories(framework/reflector)			# pattern reflector Include
-add_subdirectory(framework/reflector)				# pattern reflector Source
 
-# sequencer
-include_directories(framework/sequencer)			# pattern sequencer Include
-add_subdirectory(framework/sequencer)				# pattern sequencer Source
-
-# signal
-include_directories(framework/signal)			# pattern signal Include
-add_subdirectory(framework/signal)				# pattern signal Source
-
-add_executable(main ${SOURCE_EXE})	# add executable
-
-target_link_libraries(main framework/binding)		# pattern binding Link Libraries
-target_link_libraries(main framework/command)		# pattern command Link Libraries
-target_link_libraries(main framework/context)		# pattern context Link Libraries
-target_link_libraries(main framework/dispatcher)	# pattern dispatcher Link Libraries
-target_link_libraries(main framework/injector)		# pattern injector Link Libraries
-target_link_libraries(main framework/mediation)		# pattern mediation Link Libraries
-target_link_libraries(main framework/pool)			# pattern pool Link Libraries
-target_link_libraries(main framework/reflector)		# pattern reflector Link Libraries
-target_link_libraries(main framework/sequencer)		# pattern sequencer Link Libraries
-target_link_libraries(main framework/signal)		# pattern signal Link Libraries
 
 
 

@@ -1,57 +1,52 @@
 ﻿#pragma once
-
-
-
-
-
-
-
+#define Enum void
 #include <vector>
+#include "IManagedList.h"
+#include "ISemiBinding.h"
 
 
 using namespace strange::framework::api;
-
 namespace strange
 {
-namespace framework
-{
-namespace impl
-{
-class SemiBinding : public ISemiBinding
-{
-private:
-	Enum* privateconstraint;
-	bool privateuniqueValues = false;
+	namespace framework
+	{
+		namespace impl
+		{
+			class SemiBinding : public ISemiBinding
+			{
+			private:
+				Enum * privateconstraint;
+				bool privateuniqueValues = false;
 
-protected:
-	std::vector<void*> objectValue;
+			protected:
+				std::vector<void*> objectValue;
 
-public:
-	Enum* getconstraint() const;
-	void setconstraint( Enum* value );
-	bool getuniqueValues() const;
-	void setuniqueValues( const bool& value );
+			public:
+				Enum * getconstraint() const;
+				void setconstraint(Enum* value);
+				bool getuniqueValues() const;
+				void setuniqueValues(const bool& value);
 
-	SemiBinding();
+				SemiBinding();
 
-	//	#region IManagedList implementation
+				//	#region IManagedList implementation
 
-	IManagedList* Add( void* o );
+				IManagedList* Add(void* o);
 
-	IManagedList* Add( std::vector<void*>& list );
+				IManagedList* Add(std::vector<void*>& list);
 
-	IManagedList* Remove( void* o );
+				IManagedList* Remove(void* o);
 
-	IManagedList* Remove( std::vector<void*>& list );
-	virtual void* getvalue() const;
+				IManagedList* Remove(std::vector<void*>& list);
+				virtual void* getvalue() const;
 
-	//	#endregion
+				//	#endregion
 
-	/// Remove the value at index splicePos
-protected:
-	void spliceValueAt( int splicePos );
-};
-}
-}
+				/// Remove the value at index splicePos
+			protected:
+				void spliceValueAt(int splicePos);
+			};
+		}
+	}
 }
 
